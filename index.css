@@ -57,11 +57,14 @@ body{
     font-size: 22px;
     font-weight: 700;
     color: #ffffff;
-    padding: 18px 12px;
+    padding: 18px 20px;
     background: var(--primario);
     border-bottom: 2px solid var(--oscuro-1);
-    border-radius: 8px 8px 0 0;
-    text-align: center;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 /* Estilos del botón que alterna el tema */
@@ -104,18 +107,108 @@ body{
     position: relative;
     background: var(--tarjeta-bg);
     width: 100%;
-    padding: 30px 20px 20px 20px;
+    padding: 24px 20px 20px 20px;
     box-sizing: border-box;
     border: 1px solid var(--borde);
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 16px 16px;
     box-shadow: 0 6px 18px var(--sombra);
 }
 
-.chat input{
-    height: 48px;
-    width: 90%;
-    padding: 10px 12px;
-    border-radius: 6px;
+
+.toolbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.config-btn{
+    background: transparent;
+    border: 1px solid var(--borde-input);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--texto);
+    transition: background-color 180ms ease, transform 120ms ease, border-color 180ms ease;
+}
+
+.config-btn:hover{
+    background: rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+}
+
+:root[data-tema="oscuro"] .config-btn:hover{
+    background: rgba(255,255,255,0.08);
+}
+
+.estado{
+    font-size: 13px;
+    color: rgba(40,47,51,0.72);
+}
+
+:root[data-tema="oscuro"] .estado{
+    color: rgba(230,247,255,0.7);
+}
+
+.historial{
+    background: linear-gradient(180deg, var(--output-bg-start), var(--output-bg-end));
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--borde-output);
+    min-height: 180px;
+    max-height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.mensaje{
+    display: grid;
+    gap: 6px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.82);
+}
+
+:root[data-tema="oscuro"] .mensaje{
+    background: rgba(7,23,38,0.8);
+    border-color: rgba(255,255,255,0.05);
+    box-shadow: 0 4px 18px rgba(4,16,24,0.8);
+}
+
+.mensaje-autor{
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--primario);
+}
+
+.mensaje-contenido{
+    white-space: pre-wrap;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.mensaje-hora{
+    font-size: 12px;
+    color: rgba(0,0,0,0.45);
+}
+
+:root[data-tema="oscuro"] .mensaje-hora{
+    color: rgba(255,255,255,0.45);
+}
+
+.chat textarea{
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    padding: 12px 14px;
+    border-radius: 8px;
     border: 1px solid var(--borde-input);
     font-size: 16px;
     outline: none;
@@ -123,39 +216,143 @@ body{
     background: transparent;
 }
 
-.chat button{
-    padding: 10px 20px;
-    background: var(--primario);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 12px auto 10px;
-    transition: 200ms ease;
-    display: block;
-}
-.chat button:hover{
-    background: var(--oscuro-1);
-    box-shadow: 0 6px 18px var(--sombra-hover);
-    transform: scale(1.03);
+.chat textarea:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 0 2px rgba(0,126,205,0.1);
 }
 
-.chat #output{
-    background: linear-gradient(180deg, var(--output-bg-start), var(--output-bg-end));
-    padding: 14px;
+.acciones{
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.chat button{
+    padding: 10px 18px;
     border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 12px;
-    min-height: 100px;  
-    overflow-y: auto;
-    max-height: 260px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 200ms ease;
+    border: none;
+}
+
+.chat button.principal{
+    background: var(--primario);
+    color: #fff;
+    box-shadow: 0 6px 18px var(--sombra);
+}
+
+.chat button.principal:hover{
+    background: var(--oscuro-1);
+    box-shadow: 0 6px 18px var(--sombra-hover);
+    transform: translateY(-1px);
+}
+
+.chat button.secundario{
+    background: transparent;
+    border: 1px solid var(--borde-input);
     color: var(--texto);
-    border: 1px solid var(--borde-output);
+}
+
+.chat button.secundario:hover{
+    background: rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+}
+
+:root[data-tema="oscuro"] .chat button.secundario:hover{
+    background: rgba(255,255,255,0.08);
+}
+
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+dialog{
+    border: none;
+    border-radius: 16px;
+    padding: 24px 26px;
+    max-width: 420px;
+    width: 100%;
+    background: var(--tarjeta-bg);
+    color: var(--texto);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+}
+
+dialog::backdrop{
+    background: rgba(0,0,0,0.4);
+}
+
+.config-label{
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#configDialog input, #configDialog select{
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--borde-input);
+    font-size: 14px;
+    background: transparent;
+    color: var(--texto);
+    box-sizing: border-box;
+}
+
+.config-ayuda{
+    font-size: 13px;
+    color: rgba(40,47,51,0.7);
+    margin-top: 6px;
+}
+
+:root[data-tema="oscuro"] .config-ayuda{
+    color: rgba(230,247,255,0.7);
+}
+
+.config-acciones{
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.config-acciones button{
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.config-acciones button[value="cancel"]{
+    background: transparent;
+    border: 1px solid var(--borde-input);
+    color: var(--texto);
+}
+
+.config-acciones button[value="confirm"]{
+    background: var(--primario);
+    color: #fff;
+}
+
+.config-acciones button[value="confirm"]:hover{
+    background: var(--oscuro-1);
 }
 
 /* Small screens */
 @media (max-width: 560px){
     .center{ width: calc(100% - 40px); margin: 20px; }
-    .chat input{ width: 100%; }
+    .toolbar{ flex-direction: column; align-items: stretch; }
+    .estado{ text-align: center; }
 }
