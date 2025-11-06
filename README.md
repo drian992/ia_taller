@@ -1,32 +1,34 @@
-# Chat IA con Hugging Face GPT-2
+# Chat IA configurable
 
-Esta aplicación web mínima permite conversar con un asistente basado en el modelo público **GPT-2** alojado en la Hugging Face Inference API. La interfaz se ha simplificado para centrarse exclusivamente en escribir mensajes, enviarlos y visualizar la respuesta generada.
+Aplicación web sencilla para conversar con modelos de lenguaje a través de APIs públicas compatibles con el formato **OpenAI / Chat Completions**. Incluye selector de proveedor, persistencia de configuración y modo oscuro.
 
 ## Características
 
-- Interfaz limpia con historial de mensajes en forma de burbujas.
-- Solicitudes directas al endpoint `https://api-inference.huggingface.co/models/gpt2`.
-- Posibilidad de añadir tu token personal de Hugging Face editando una constante en `modelo.js`.
+- Historial de conversación con diseño tipo burbujas.
+- Configuración persistente (URL, modelo, token) almacenada en `localStorage`.
+- Soporte para distintos proveedores públicos:
+  - `FreeGPT`: proxy público sin autenticación (`https://free.churchless.tech/v1/chat/completions`).
+  - `OpenRouter`: requiere API Key personal desde [https://openrouter.ai](https://openrouter.ai).
+  - `Hugging Face Inference`: requiere token con permisos de inferencia.
+  - Opción personalizada para cualquier endpoint compatible.
+- Guardado automático del historial (se puede limpiar desde la interfaz).
+- Atajo **Ctrl+Enter** (o Cmd+Enter) para enviar el mensaje actual.
 
 ## Uso
 
-1. Abre `index.html` en tu navegador.
-2. Escribe un mensaje en el campo de texto.
-3. Pulsa **Enviar** o presiona `Ctrl+Enter` (`Cmd+Enter` en macOS) para enviar.
-4. El asistente responderá utilizando el modelo GPT-2.
+1. Abre `index.html` en un navegador moderno.
+2. Pulsa el botón **⚙️ Configuración** y selecciona un proveedor.
+3. Ajusta la URL, el modelo y, si aplica, introduce tu token.
+4. Escribe tu mensaje en el cuadro de texto y presiona **Enviar**.
 
-> **Nota:** El endpoint público de Hugging Face puede tardar en generar la primera respuesta si el modelo está en reposo. Si dispones de un token con permisos de inferencia, añádelo en `modelo.js` para mejorar la fiabilidad:
->
-> ```js
-> const HUGGINGFACE_API_TOKEN = 'hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-> ```
+> **Nota:** Los proxys públicos sin autenticación pueden presentar tiempos de respuesta inestables. Si cuentas con una API Key propia se recomienda utilizarla.
 
 ## Desarrollo
 
-El proyecto está compuesto únicamente por archivos estáticos:
+Los archivos principales son:
 
-- `index.html`: Estructura de la interfaz.
-- `index.css`: Estilos del chat.
-- `modelo.js`: Lógica para renderizar mensajes y llamar a la API de Hugging Face.
+- `index.html`: estructura de la interfaz.
+- `index.css`: estilos y tema oscuro.
+- `modelo.js`: lógica del chat, manejo de configuración y consumo de APIs.
 
-No se requieren dependencias adicionales ni un servidor específico; cualquier servidor estático funcionará.
+No se necesita tooling adicional; basta con abrir el archivo HTML en el navegador.

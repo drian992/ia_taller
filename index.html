@@ -3,30 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat IA - Hugging Face GPT-2</title>
-  <link rel="stylesheet" href="index.css" />
+  <title>Chat con IA configurable</title>
+    <link rel="stylesheet" href="index.css"/>
 </head>
 <body>
-  <main class="chat-app">
-    <header class="chat-header">
-      <h1>Asistente GPT-2</h1>
-      <p class="chat-subtitle">Impulsado por Hugging Face Inference API</p>
-    </header>
+ 
+  <div id="chat" class="center">
+    <div class="header">
+      <h1>Chat con IA</h1>
+      <button
+        id="temaToggle"
+        class="tema-toggle"
+        title="Cambiar tema"
+        aria-pressed="false"
+        onclick="toggleTema()"
+      >
+        <span class="icon" aria-hidden="true">🌙</span>
+      </button>
+    </div>
 
-    <section id="conversation" class="conversation" aria-live="polite" aria-label="Historial de conversación"></section>
+    <div class="chat">
+      <div class="toolbar">
+        <button id="abrirConfig" class="config-btn" type="button">⚙️ Configuración</button>
+        <span id="estado" class="estado" role="status" aria-live="polite"></span>
+      </div>
 
-    <form id="chatForm" class="chat-form" autocomplete="off">
-      <label class="sr-only" for="userInput">Escribe tu mensaje</label>
+      <div id="output" class="historial" aria-live="polite" aria-label="Historial de conversación"></div>
+
+      <label class="sr-only" for="inputText">Mensaje para la IA</label>
       <textarea
-        id="userInput"
-        name="userInput"
+        id="inputText"
         rows="3"
-        placeholder="Escribe tu mensaje aquí..."
-        required
-      ></textarea>
-      <button id="sendButton" type="submit" class="send-button">Enviar</button>
+        placeholder="Escribe tu mensaje y pulsa Enviar (Ctrl+Enter)">
+      </textarea>
+
+      <div class="acciones">
+        <button id="limpiarChat" type="button" class="secundario">Limpiar chat</button>
+        <button id="enviar" type="button" class="principal">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <dialog id="configDialog">
+    <form method="dialog" id="configForm">
+      <h2>Configuración de API</h2>
+
+      <label class="config-label" for="providerSelect">Proveedor</label>
+      <select id="providerSelect" name="provider">
+        <option value="freegpt">FreeGPT (proxy público)</option>
+        <option value="openrouter">OpenRouter</option>
+        <option value="huggingface">Hugging Face Inference</option>
+        <option value="personalizado">Personalizado</option>
+      </select>
+
+      <label class="config-label" for="endpointInput">URL base</label>
+      <input id="endpointInput" name="endpoint" type="url" placeholder="https://ejemplo.com/v1/chat/completions" required />
+
+      <label class="config-label" for="modelInput">Modelo</label>
+      <input id="modelInput" name="model" type="text" placeholder="mistralai/Mixtral-8x7B-Instruct" required />
+
+      <label class="config-label" for="tokenInput">Token / API Key (opcional)</label>
+      <input id="tokenInput" name="token" type="password" autocomplete="off" placeholder="sk-..." />
+      <p class="config-ayuda" id="providerHelp"></p>
+
+      <menu class="config-acciones">
+        <button value="cancel" type="reset">Cancelar</button>
+        <button value="confirm" id="guardarConfig" type="submit">Guardar</button>
+      </menu>
     </form>
-  </main>
+  </dialog>
+
+  <template id="mensajeTemplate">
+    <article class="mensaje">
+      <div class="mensaje-autor"></div>
+      <div class="mensaje-contenido"></div>
+      <time class="mensaje-hora" hidden></time>
+    </article>
+  </template>
 
   <script src="modelo.js"></script>
 </body>
