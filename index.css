@@ -1,0 +1,161 @@
+:root{
+    --fondo-1: #cbebff; /* 203,235,255 */
+    --fondo-2: #87d1ff; /* 135,209,255 */
+    --primario: #007ecd; /* 0,126,205 */
+    --oscuro-1: #2c4a5d; /* 44,74,93 */
+    --texto: #282f33; /* 40,47,51 */
+    /* Controles y tarjetas */
+    --tarjeta-bg: #ffffff;
+    --output-bg-start: #fbfeff;
+    --output-bg-end: #f1fbff;
+    --borde: rgba(44,74,93,0.08);
+    --sombra: rgba(44,74,93,0.08);
+    --borde-input: rgba(44,74,93,0.12);
+    --sombra-hover: rgba(44,74,93,0.18);
+    --borde-output: rgba(44,74,93,0.05);
+}
+
+/* Tema oscuro: se activa con <html data-tema="oscuro"> o document.documentElement.setAttribute('data-tema','oscuro') */
+:root[data-tema="oscuro"]{
+    /* Paleta optimizada para modo oscuro */
+    --fondo-1: #05131a; /* muy oscuro, casi negro azulado */
+    --fondo-2: #07202a; /* gradiente sutil hacia un azul petróleo */
+    --primario: #2aa6ff; /* accent cian brillante para botones */
+    --oscuro-1: #041018; /* tonos más oscuros para bordes */
+    --texto: #e6f7ff; /* texto claro y ligeramente azulado */
+    --tarjeta-bg: #071726; /* fondo de tarjetas */
+    --output-bg-start: #041219;
+    --output-bg-end: #07202a;
+    --borde: rgba(255,255,255,0.04);
+    --sombra: rgba(0,0,0,0.6);
+    --borde-input: rgba(255,255,255,0.06);
+    --sombra-hover: rgba(42,166,255,0.12);
+    --borde-output: rgba(255,255,255,0.04);
+}
+
+/* Transiciones suaves al cambiar tema */
+body, .center .header, .center .chat, .chat #output, .chat button {
+    transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, var(--fondo-1), var(--fondo-2));
+    color: var(--texto);
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.center{
+    width: 520px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.center .header{
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 18px 12px;
+    background: var(--primario);
+    border-bottom: 2px solid var(--oscuro-1);
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+}
+
+/* Estilos del botón que alterna el tema */
+.tema-toggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 32px;
+    margin-left: 8px;
+    padding: 0;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid var(--borde-input);
+    color: var(--texto);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 120ms ease, border-color 180ms ease;
+}
+
+.tema-toggle .icon{ pointer-events: none; }
+
+.tema-toggle:hover{ transform: translateY(-1px); }
+
+/* Estado presionado: muestra un fondo primario y texto en blanco */
+.tema-toggle[aria-pressed="true"]{
+    background: var(--primario);
+    color: #fff;
+    border-color: rgba(0,0,0,0.06);
+    box-shadow: 0 6px 18px var(--sombra-hover);
+}
+
+.tema-toggle:focus{
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(42,166,255,0.12);
+}
+
+.center .chat{
+    position: relative;
+    background: var(--tarjeta-bg);
+    width: 100%;
+    padding: 30px 20px 20px 20px;
+    box-sizing: border-box;
+    border: 1px solid var(--borde);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 6px 18px var(--sombra);
+}
+
+.chat input{
+    height: 48px;
+    width: 90%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--borde-input);
+    font-size: 16px;
+    outline: none;
+    color: var(--texto);
+    background: transparent;
+}
+
+.chat button{
+    padding: 10px 20px;
+    background: var(--primario);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 12px auto 10px;
+    transition: 200ms ease;
+    display: block;
+}
+.chat button:hover{
+    background: var(--oscuro-1);
+    box-shadow: 0 6px 18px var(--sombra-hover);
+    transform: scale(1.03);
+}
+
+.chat #output{
+    background: linear-gradient(180deg, var(--output-bg-start), var(--output-bg-end));
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    min-height: 100px;  
+    overflow-y: auto;
+    max-height: 260px;
+    color: var(--texto);
+    border: 1px solid var(--borde-output);
+}
+
+/* Small screens */
+@media (max-width: 560px){
+    .center{ width: calc(100% - 40px); margin: 20px; }
+    .chat input{ width: 100%; }
+}
